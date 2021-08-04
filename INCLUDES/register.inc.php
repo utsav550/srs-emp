@@ -30,6 +30,11 @@ if(isset($_POST["register"])) {
         header("location: ../register.php?error=macthpass");
         exit();
     }
+    if (invalidmobile($mobile) !== false) {
+
+        header("Location: ../register.php?error=invalidmobile");
+        exit();
+    }
     if(emailexist($conn, $email) !== false){
         header("location: ../register.php?error=exist");
         exit();

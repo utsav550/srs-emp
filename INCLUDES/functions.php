@@ -37,6 +37,16 @@ function passmatch($pass, $conpass)
         return $result;
     }
 }
+function invalidmobile($mobile) {
+    $result;
+    if (!preg_match("/^[0-9]*$/", $mobile)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
 function emailexist($conn, $email)
 {
     $sql = "SELECT * FROM `register` WHERE `email` = ?;";
@@ -54,7 +64,6 @@ function emailexist($conn, $email)
 
     if ($row = mysqli_fetch_assoc($resultdata)) {
         return $row;
-         
     } else {
         $result = false;
         return $result;
@@ -69,15 +78,15 @@ function createuser($conn, $fname, $lname, $email, $mobile, $pass)
 {
     $sql = "INSERT INTO `register`(`f_name`, `l_name`, `email`, `mobile`, `Password`, `status`, `otp`) 
     VALUES (? ,? ,? ,?,?,?,?)";
-    
-    
-    $otp = rand(111111,999999);
 
-	$mailHtml="Please Confirm your email with OTP $otp";
-	
-    mail($email,'Account Verification',$mailHtml);
-   
-       
+
+    $otp = rand(111111, 999999);
+
+    $mailHtml = "Please Confirm your email for SRS with OTP </br> $otp </br> Don't share your personal information with other such as email, password and OTP";
+
+    mail($email, 'Account Verification', $mailHtml);
+
+
     $status = "registered";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -91,7 +100,7 @@ function createuser($conn, $fname, $lname, $email, $mobile, $pass)
     mysqli_stmt_bind_param($stmt, "sssssss", $fname, $lname, $email, $mobile, $hpass, $status, $otp);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("Location: ../register.php?error=none");
+    header("Location: ../log-in.php?error=suc");
 }
 
 
@@ -111,8 +120,8 @@ function loginuser($conn, $email, $pwd)
 
 
     $pwdhashed = $emailexist["Password"];
-    
-    
+
+
     if (password_verify($pwd, $pwdhashed)) {
 
         session_start();
@@ -121,22 +130,21 @@ function loginuser($conn, $email, $pwd)
         $_SESSION["lname"] = $emailexist["l_name"];
         $_SESSION["u_id"] = $emailexist["user_idems"];
         $_SESSION["status"] = $emailexist["status"];
-        if($_SESSION["status"] == "registered"){
+        if ($_SESSION["status"] == "registered") {
             header("Location: ../verifyemail.php?error=done");
             exit();
         }
         header("Location: ../index.php?error=done");
         exit();
-    }
-    else{
+    } else {
         header("Location: ../log-in.php?error=wrongloginem");
         exit();
     }
-         
 }
 //---------------------------------- OTP -------------------------------
 
-function verifyuser($conn, $email, $otp){
+function verifyuser($conn, $email, $otp)
+{
     $emailexist = emailexist($conn, $email);
 
     if ($emailexist == false) {
@@ -147,24 +155,27 @@ function verifyuser($conn, $email, $otp){
 
     $otpdb = $emailexist["otp"];
     $id = $emailexist["user_idems"];
-    if($otpdb == $otp){
+    if ($otpdb == $otp) {
         $status = "verified";
         $sql = "UPDATE `register` SET `status`= ? WHERE `user_idems` = ?";
-    
-    
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
 
-        header("Location: ../register.php?error=db");
+
+        $stmt = mysqli_stmt_init($conn);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+
+            header("Location: ../register.php?error=db");
+            exit();
+        }
+        mysqli_stmt_bind_param($stmt, "ss", $status, $id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        if ($_SESSION["status"] == "registered") {
+            $_SESSION["status"] = "verified";
+        }
+
+        header("Location: ../log-in.php?error=ver");
         exit();
-    }
-    mysqli_stmt_bind_param($stmt, "ss", $status, $id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-        header("Location: ../index.php?error=done");
-    }
-    else{
+    } else {
         header("Location: ../verifyemail.php?error=wrong");
     }
-
 }

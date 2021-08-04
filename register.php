@@ -111,19 +111,23 @@ a {
     if(isset($_GET["error"])){
 
       if($_GET["error"] == "emptyinput"){
-        echo '<P style= " color:red"> please fill all the fields!</p>';
+        echo '<P style= " color:red"> Please fill all the fields!</p>';
       }
       if($_GET["error"] == "invalidemail"){
-        echo '<P style= " color:red"> please enter valid email!</p>';
+        echo '<P style= " color:red"> Please enter valid email!</p>';
       }
       if($_GET["error"] == "macthpass"){
-        echo '<P style= " color:red"> your password does not match!</p>';
+        echo '<P style= " color:red"> Use Same Password for Both Fields!</p>';
       }
+      if($_GET["error"] == "invalidmobile"){
+        echo '<P style= " color:red"> Use Valid Mobile Number!</p>';
+      }
+      
       if($_GET["error"] == "exist"){
-        echo '<P style= " color:red"> email address already exist!</p>';
+        echo '<P style= " color:red"> Email address already exist!</p>';
       }
       if($_GET["error"] == "stmt"){
-        echo '<P style= " color:red"> there is problem on backend. plase contact admin!</p>';
+        echo '<P style= " color:red"> There is problem on backend. plase contact admin!</p>';
       }
       if($_GET["error"] == "db"){
         echo '<P style= " color:red"> there is problem with database connection. please contact admim!</p>';

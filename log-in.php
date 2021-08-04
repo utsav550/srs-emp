@@ -100,10 +100,13 @@ a {
         echo '<P style= " color:red"> please fill all the fields!</p>';
       }
       if($_GET["error"] == "wrongloginem"){
-        echo '<P style= " color:red"> wrong E-mail or password!</p>';
+        echo '<P style= " color:red">Incorrect Details!</p>';
       }
-      if($_GET["error"] == "macthpass"){
-        echo '<P style= " color:red"> your password does not match!</p>';
+      if($_GET["error"] == "suc"){
+        echo '<P style= " color:green"> Your Account has been Registered. Please Log-in!</p>';
+      }
+      if($_GET["error"] == "ver"){
+        echo '<P style= " color:green"> Your account has been activated successfully!</p>';
       }
       if($_GET["error"] == "exist"){
         echo '<P style= " color:red"> email address already exist!</p>';
@@ -115,7 +118,7 @@ a {
         echo '<P style= " color:red"> there is problem with database connection. please contact admim!</p>';
       }
       if($_GET["error"] == "none"){
-        echo '<P style= " color:green"> you are sucssefully registerd!</p>';
+        echo '<P style= " color:green"> You are sucssefully registerd!</p>';
       }
     }
 
