@@ -134,7 +134,7 @@ function loginuser($conn, $email, $pwd)
             header("Location: ../verifyemail.php?error=done");
             exit();
         }
-        header("Location: ../index.php?error=done");
+        header("Location: ../UserDashBoard/index.php?error=done");
         exit();
     } else {
         header("Location: ../log-in.php?error=wrongloginem");
