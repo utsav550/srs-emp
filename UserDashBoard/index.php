@@ -1,4 +1,5 @@
 <?php
+include "includes/session.inc.php";
 include "sidebarDB.php";
 include "headerDB.php";
 

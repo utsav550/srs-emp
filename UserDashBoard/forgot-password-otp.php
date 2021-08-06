@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+if(isset($_GET["id"])){
+$idems = $_GET["id"];}
+else{
+    header("Location: forgot-password.php");
+}
 
+?>
 <head>
 
     <meta charset="utf-8">
@@ -9,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SRS-EMS | Login</title>
+    <title>SRS-EMS | Reset Password</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -39,38 +46,46 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">OTP Verification!</h1>
                                     </div>
-                                    <form class="user" action="../INCLUDES/login.inc.php"  method="post">
+                                    <form class="user" action="includes/forgot.inc.php"  method="post">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                        <input type="text" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address..." name="email">
+                                                placeholder="Enter Password" name="id" value="<?php  echo $idems; ?> " hidden>
+                                            <input type="text" class="form-control form-control-user"
+                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                placeholder="Enter OTP" name="otp">
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password" name="psw">
-                                        </div>
-                                        <?php
 
+                                        <?php
+   
+        
     if(isset($_GET["error"])){
 
-      if($_GET["error"] == "emptyinput"){
-        echo '<P style= " color:red"> please fill all the fields!</p>';
+      if($_GET["error"] == "empty"){
+        echo '<div class="alert alert-danger" role="alert">
+       Please Enter OTP.
+      </div>';
       }
-      if($_GET["error"] == "wrongloginem"){
-        echo '<P style= " color:red">Incorrect Details!</p>';
+      if($_GET["error"] == "send"){
+        echo '<div class="alert alert-success" role="alert">
+        We have just sent you en email with OTP. Please verify your Account.
+      </div>
+      <div class="alert alert-danger" role="alert">
+        Please Check SPAM folder.
+      </div>';
       }
-      if($_GET["error"] == "suc"){
-        echo '<P style= " color:green"> Your Account has been Registered. Please Log-in!</p>';
+      if($_GET["error"] == "wrong"){
+        echo '<div class="alert alert-danger" role="alert">
+        Incorrect OTP.
+       </div>';
       }
       if($_GET["error"] == "ver"){
         echo '<P style= " color:green"> Your account has been activated successfully!</p>';
       }
-      if($_GET["error"] == "freset"){
-        echo '<div class="alert alert-success" role="alert">
-        Your Password Changed Succesfully!
-       </div>';
+      if($_GET["error"] == "exist"){
+        echo '<P style= " color:red"> email address already exist!</p>';
       }
       if($_GET["error"] == "stmt"){
         echo '<P style= " color:red"> there is problem on backend. plase contact admin!</p>';
@@ -84,25 +99,17 @@
     }
 
     ?>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block" name="submit">Login</button>
+                                        
+                                        <button type="submit" class="btn btn-primary btn-user btn-block" name="submitotp">Verify OTP</button>
                                             
                                         </a>
                                         <hr>
                                         
                                     </form>
                                     <hr>
+                                    
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.php">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="register.php">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>

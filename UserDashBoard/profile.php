@@ -1,10 +1,5 @@
-<script type="text/javascript">
-    $(window).on('load', function() {
-        $('#myModal').modal('show');
-    });
-</script>
 <?php
-
+include "includes/session.inc.php";
 include "sidebarDB.php";
 include "headerDB.php";
 
@@ -42,7 +37,7 @@ if(isset($_GET["error"])){
 
     if($_GET["error"] == "empty"){
       echo '<div class="alert alert-danger" role="alert">
-      Please fill out all the fields to update the Information!
+      Please fill out all the fields to update the Password!
     </div>';
     }
     if($_GET["error"] == "done"){
